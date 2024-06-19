@@ -53,5 +53,5 @@ const getUserByUid = (uid) => new Promise((resolve, reject) => {
 });
 
 export {
-  getUser, updateUser, createUser, getUserByUid,
+  getUser, updateUser, createUser,
 };

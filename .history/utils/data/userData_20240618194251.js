@@ -41,17 +41,6 @@ const updateUser = (id, userData) => new Promise((resolve, reject) => {
     });
 });
 
-const getUserByUid = (uid) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/users/${uid}`, {
-    headers: {
-      Authorization: uid,
-    },
-  })
-    .then((response) => response.json())
-    .then(resolve)
-    .catch(reject);
-});
-
 export {
-  getUser, updateUser, createUser, getUserByUid,
+  getUser, updateUser, createUser,
 };
