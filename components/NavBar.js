@@ -6,12 +6,16 @@ import {
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
 
-export default function NavBarAuth() {
+export default function NavBar() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Link passHref href="/">
+<<<<<<< mel-auth-register
+          <Navbar.Brand>Rare</Navbar.Brand>
+=======
           <Navbar.Brand>Rare 2</Navbar.Brand>
+>>>>>>> main
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -22,6 +26,9 @@ export default function NavBarAuth() {
             </Link>
             <Link passHref href="/users">
               <Nav.Link>Users</Nav.Link>
+            </Link>
+            <Link passHref href="/posts">
+              <Nav.Link>Posts</Nav.Link>
             </Link>
             <Button variant="danger" onClick={signOut}>Sign Out</Button>
           </Nav>
