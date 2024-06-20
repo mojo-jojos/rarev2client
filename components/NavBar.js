@@ -11,11 +11,7 @@ export default function NavBar() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Link passHref href="/">
-<<<<<<< mel-auth-register
           <Navbar.Brand>Rare</Navbar.Brand>
-=======
-          <Navbar.Brand>Rare 2</Navbar.Brand>
->>>>>>> main
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

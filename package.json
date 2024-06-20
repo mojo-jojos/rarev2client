@@ -2,7 +2,7 @@
   "name": "rarev2client",
   "private": true,
   "version": "1.0.0",
-  "author": "Abby DePriest",
+  "author": "Tatiana Barga",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
