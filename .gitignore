@@ -38,6 +38,7 @@ yarn-error.log*
 
 # vs code
 .vscode/
+.history
 
 # firebase
 .firebase/

@@ -1,119 +1,83 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { createEvent } from '../../utils/data/eventData';
-import { getGames } from '../../utils/data/gameData';
+import { createPost } from '../../utils/data/postData';
 
-const initialState = {
-  game: '',
-  description: '',
-  date: '',
-  time: '',
-  organizer: 0,
-};
-
-const EventForm = () => {
-  const [games, setGames] = useState([]);
-  const [currentEvent, setCurrentEvent] = useState(initialState);
+const PostForm = ({ user }) => {
   const router = useRouter();
-
-  useEffect(() => {
-    getGames().then(setGames);
-  }, []);
+  const initialState = {
+    title: '',
+    image_url: '',
+    content: '',
+    approved: 'True',
+    rare_user: user.id,
+  };
+  const [currentPost, setCurrentPost] = useState(initialState);
 
   const handleChange = (e) => {
-    // Complete the onChange function
     const { name, value } = e.target;
-    setCurrentEvent((prevState) => ({
+    setCurrentPost((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
-    // Prevent form from being submitted
     e.preventDefault();
 
-    const event = {
-      game: currentEvent.game,
-      description: currentEvent.description,
-      date: currentEvent.date,
-      time: currentEvent.time,
-      organizer: Number(currentEvent.organizer),
+    const post = {
+      title: currentPost.title,
+      image_url: currentPost.image_url,
+      content: currentPost.content,
+      approved: currentPost.approved,
+      rare_user: currentPost.rare_user,
     };
 
-    // Send POST request to your API
-    createEvent(event).then(console.log(event)).then(() => router.push('/events'));
+    createPost(post).then(() => router.push('/posts'));
   };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <FloatingLabel controlId="floatingSelect" label="Game">
-          <Form.Select
-            aria-label="Game"
-            name="game"
-            onChange={handleChange}
-            className="mb-3"
-            value={currentEvent.game}
-            required
-          >
-            <option value="">Select a Game</option>
-            {
-              games.map((game) => (
-                <option
-                  key={game.id}
-                  value={game.id}
-                >
-                  {game.title}
-                </option>
-              ))
-            }
-          </Form.Select>
-        </FloatingLabel>
-        {/* TODO: create the rest of the input fields */}
-        <FloatingLabel controlId="floatingTextarea" label="Description" className="mb-3">
+        <FloatingLabel controlId="floatingTextarea" label="Title" className="mb-3">
           <Form.Control
             as="textarea"
-            placeholder="Description"
-            name="description"
-            value={currentEvent.description}
+            placeholder="Title"
+            name="title"
+            value={currentPost.title}
             onChange={handleChange}
             required
           />
         </FloatingLabel>
-        <FloatingLabel controlId="floatingTextarea" label="Date" className="mb-3">
+        <FloatingLabel controlId="floatingTextarea" label="Image_url" className="mb-3">
           <Form.Control
             as="textarea"
-            placeholder="Date"
-            name="date"
-            value={currentEvent.date}
+            placeholder="Image_url"
+            name="image_url"
+            value={currentPost.image_url}
             onChange={handleChange}
             required
           />
         </FloatingLabel>
-        <FloatingLabel controlId="floatingTextarea" label="Time" className="mb-3">
+        <FloatingLabel controlId="floatingTextarea" label="Content" className="mb-3">
           <Form.Control
             as="textarea"
-            placeholder="Time"
-            name="time"
-            value={currentEvent.time}
+            placeholder="Content"
+            name="content"
+            value={currentPost.content}
             onChange={handleChange}
             required
           />
         </FloatingLabel>
-        <FloatingLabel controlId="floatingTextarea" label="Organizer Id" className="mb-3">
-          <Form.Control
-            as="textarea"
-            placeholder="Organizer Id"
-            name="organizer"
-            value={currentEvent.organizer}
-            onChange={handleChange}
-            required
-          />
-        </FloatingLabel>
+        <Form.Check
+          type="switch"
+          id="custom-switch"
+          label="Approved"
+          name="approved"
+          value={currentPost.approved}
+        />
 
         <Button variant="primary" type="submit">
           Submit
@@ -123,10 +87,10 @@ const EventForm = () => {
   );
 };
 
-EventForm.propTypes = {
+PostForm.propTypes = {
   user: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default EventForm;
+export default PostForm;

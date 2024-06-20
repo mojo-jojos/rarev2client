@@ -49,7 +49,7 @@ const deletePost = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export default {
+export {
   getPosts,
   createPost,
   updatePost,
