@@ -1,7 +1,13 @@
 import { clientCredentials } from '../client';
 
-const getPosts = () => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/posts`)
+const getPosts = (uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/posts`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+  })
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);
@@ -49,7 +55,7 @@ const deletePost = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export default {
+export {
   getPosts,
   createPost,
   updatePost,
