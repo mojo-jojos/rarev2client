@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import PostCard from '../../components/PostCard';
