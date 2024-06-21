@@ -49,6 +49,7 @@ const UserForm = ({ initialUser }) => {
       router.push('/users');
     } catch (error) {
       console.error('Failed to update user', error);
+      // TODO:  dont log error, reveals server information
     }
   };
 
