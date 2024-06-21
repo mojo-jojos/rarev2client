@@ -1,8 +1,7 @@
 {
-  "name": "rareV2",
+  "name": "rarev2client",
   "private": true,
   "version": "1.0.0",
-  "author": "Jonathan Slater",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
