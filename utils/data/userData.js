@@ -41,17 +41,26 @@ const updateUser = (id, userData) => new Promise((resolve, reject) => {
     });
 });
 
-const getUserByUid = (uid) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/users/${uid}`, {
+const deleteUser = (id) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/users/${id}`, {
+    method: 'DELETE',
     headers: {
-      Authorization: uid,
+      'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
     .then(resolve)
     .catch(reject);
 });
 
+const getUserByUid = async (uid) => {
+  const response = await fetch(`${clientCredentials.databaseURL}/users/${uid}`, {
+    headers: {
+      Authorization: uid,
+    },
+  });
+  return response.json();
+};
+
 export {
-  getUser, updateUser, createUser, getUserByUid,
+  getUser, updateUser, createUser, getUserByUid, deleteUser
 };

@@ -39,7 +39,6 @@ const updateUser = (userInfo) => new Promise((resolve, reject) => {
       Accept: 'application/json',
     },
   })
-    .then((response) => response.json())
     .then((data) => resolve(data))
     .catch(reject);
 });
