@@ -1,20 +1,38 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { createPost } from '../../utils/data/postData';
+import { useAuth } from '../../utils/context/authContext';
+import { createPost, updatePost, deletePost } from '../../utils/data/postData';
 
-const PostForm = ({ user }) => {
+const initialState = {
+  title: '',
+  image_url: '',
+  content: '',
+  approved: 'True',
+};
+
+const PostForm = ({ postObj }) => {
   const router = useRouter();
-  const initialState = {
-    title: '',
-    image_url: '',
-    content: '',
-    approved: 'True',
-    rare_user: user.id,
-  };
-  const [currentPost, setCurrentPost] = useState(initialState);
+  const { user } = useAuth();
+
+  const [currentPost, setCurrentPost] = useState({ ...initialState, rare_user: user?.id });
+  useEffect(() => {
+    if (postObj?.id) {
+      setCurrentPost({
+        id: postObj.id,
+        title: postObj.title,
+        image_url: postObj.image_url,
+        content: postObj.content,
+        approved: postObj.approved,
+        rare_user: postObj.rare_user || user?.id,
+      });
+      console.warn('object was passed', postObj);
+    }
+  }, [postObj, user]);
+
+  console.warn(currentPost);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +53,12 @@ const PostForm = ({ user }) => {
       rare_user: currentPost.rare_user,
     };
 
-    createPost(post).then(() => router.push('/posts'));
+    if (currentPost.id) {
+      post.id = currentPost.id;
+      updatePost(post).then(() => router.push('/posts'));
+    } else {
+      createPost(post).then(() => router.push('/posts'));
+    }
   };
 
   return (
@@ -78,7 +101,9 @@ const PostForm = ({ user }) => {
           name="approved"
           value={currentPost.approved}
         />
-
+        <Button onClick={deletePost}>
+          Delete Post
+        </Button>
         <Button variant="primary" type="submit">
           Submit
         </Button>
@@ -91,6 +116,18 @@ PostForm.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }).isRequired,
+  postObj: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    image_url: PropTypes.string,
+    content: PropTypes.string,
+    approved: PropTypes.bool,
+    rare_user: PropTypes.number,
+  }),
+};
+
+PostForm.defaultProps = {
+  postObj: initialState,
 };
 
 export default PostForm;
